@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: polkadot-node-pv-snapshot-provision
+spec:
+  storageClassName: ${KUBERNETES_NAME_PREFIX}-snapshottable-ssd
+  dataSource:
+    name: ${KUBERNETES_NAME_PREFIX}-polkadot-node-pv-snapshot
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi

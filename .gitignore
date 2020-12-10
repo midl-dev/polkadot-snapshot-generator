@@ -1,0 +1,7 @@
+terraform/terraform.tfvars
+terraform/terraform.tfstate
+terraform/.terraform
+terraform/plan.out
+terraform-no-cluster-create/terraform.tfvars
+terraform-no-cluster-create/terraform.tfstate
+terraform-no-cluster-create/.terraform

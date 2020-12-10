@@ -1,0 +1,51 @@
+title: Polkashots
+author: MIDL.dev
+description: > # this means to ignore newlines until "show_excerpts:"
+  Polkadot Snapshots
+favicon: "./favicon.ico" # set the favicon of the site 
+
+show_excerpts: false # set to true to show excerpts on the homepage
+
+remote_theme: midl-dev/polkashots-website@main
+# Theme settings
+doks:
+    baseurl:
+    color_theme: blue # Available themes: blue (default), green, purple, red and yellow
+    header:
+        logo:
+            text: Polkashots
+            image:
+            logo_url: 'https://polkashots.io'
+        nav:
+            - item_name: Polkadot/RocksDb
+              item_url: 'https://dot-rocksdb.polkashots.io/'
+            - item_name: Polkadot/ParityDb
+              item_url: 'https://dot.polkashots.io/'
+
+    footer:
+        content:
+            logo:
+                text: Polkahots
+                image:
+            copyright: Copyright &copy; 2021. - MIDL.Dev <br>All rights reserved.
+        social_list:
+            - network_name: github
+              profile_url: 'https://github.com/midl-dev'
+            - network_name: twitter
+              profile_url: 'https://twitter.com/midl_dev'
+                #
+# SASS settings
+sass:
+    sass_dir: ./_sass
+    style: :compressed
+
+# Jekyll settings
+layouts_dir: ./_layouts
+includes_dir: ./_includes
+exclude: [ 'README.md', 'CHANGELOG.md' ]
+permalink: /:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-remote-theme

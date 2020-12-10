@@ -1,0 +1,164 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: snapshottable-ssd
+provisioner: pd.csi.storage.gke.io
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: pd-ssd
+---
+apiVersion: snapshot.storage.k8s.io/v1beta1
+kind: VolumeSnapshotClass
+metadata:
+  name: ssd-snapshot-class
+driver: pd.csi.storage.gke.io
+deletionPolicy: Delete
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: polkadot-private-node-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: private-node
+  labels:
+    app: private-node
+spec:
+  ports:
+  - port: 9933
+    name: rpc
+  - port: 9615
+    name: metrics
+  - port: 30333
+    name: p2p
+  selector:
+    app: private-node
+  clusterIP: None
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: private-node
+    release: monitoring
+  name: private-monitoring
+spec:
+  endpoints:
+  - interval: 15s
+    port: metrics
+    path: /metrics
+  selector:
+    matchLabels:
+      app: private-node
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: polkadot-private-node-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: private-node
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+    - port: 443
+      protocol: TCP
+    - port: 30333
+      protocol: TCP
+    - port: 30334
+      protocol: TCP
+    - port: 30100
+      protocol: TCP
+  ingress:
+  - ports:
+    - port: 9933
+      protocol: TCP
+    - port: 30333
+      protocol: TCP
+  - ports:
+    - port: 9615
+      protocol: TCP
+    from:
+    - namespaceSelector:
+        matchLabels: {}
+      podSelector:
+        matchLabels:
+          app: prometheus
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-node
+spec:
+  selector:
+    matchLabels:
+      app: private-node
+  template:
+    metadata:
+      labels:
+        app: private-node
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: polkadot-private-node
+        image: polkadot-private-node
+        ports:
+        - containerPort: 9933
+          name: dot-rpc-port
+        - containerPort: 9615
+          name: metrics
+        - containerPort: 30333
+          name: dot-p2p-port
+        volumeMounts:
+        - name: polkadot-private-node-claim
+          mountPath: /polkadot
+        envFrom:
+        - configMapRef:
+            name: polkadot-configmap
+        resources:
+          limits:
+            cpu: 0
+        imagePullPolicy: Always
+      volumes:
+      - name: polkadot-private-node-claim
+        persistentVolumeClaim:
+          claimName: polkadot-private-node-claim
+      - name: polkadot-node-keys
+        secret:
+          secretName: polkadot-node-keys
+      initContainers:
+      - name: polkadot-archive-downloader
+        image: polkadot-archive-downloader
+        volumeMounts:
+        - name: polkadot-private-node-claim
+          mountPath: /polkadot
+        env:
+        - name: CHAIN
+          valueFrom:
+            configMapKeyRef:
+              name: polkadot-configmap
+              key: CHAIN
+        - name: ARCHIVE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: polkadot-configmap
+              key: ARCHIVE_URL
+        imagePullPolicy: Always

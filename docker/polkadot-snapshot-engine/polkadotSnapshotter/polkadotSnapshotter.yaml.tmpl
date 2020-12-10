@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: polkadot-snapshotter
+spec:
+  template:
+    metadata:
+      labels:
+        app: polkadot-snapshotter
+    spec:
+      securityContext:
+        fsGroup: 100
+      initContainers:
+      - name: polkadot-snapshotter
+        image: polkadot-snapshotter
+        volumeMounts:
+        - name: polkadot-node-pv-snapshot-provision
+          mountPath: /polkadot
+        - name: snapshot-cache-volume
+          mountPath: /mnt/snapshot-cache-volume
+        resources:
+          limits:
+            cpu: 0
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: polkadot-snapshotter-configmap
+      - name: snapshot-uploader
+        image: snapshot-uploader
+        volumeMounts:
+        - name: snapshot-cache-volume
+          mountPath: /mnt/snapshot-cache-volume
+        resources:
+          limits:
+            cpu: 0
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: polkadot-snapshotter-configmap
+      containers:
+      - name: website-builder
+        image: website-builder
+        volumeMounts:
+        - name: snapshot-cache-volume
+          mountPath: /mnt/snapshot-cache-volume
+        resources:
+          limits:
+            cpu: 0
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: polkadot-snapshotter-configmap
+      volumes:
+      - name: polkadot-node-pv-snapshot-provision
+        persistentVolumeClaim:
+          claimName: ${KUBERNETES_NAME_PREFIX}-polkadot-node-pv-snapshot-provision
+      - name: snapshot-cache-volume
+        emptyDir: {}
+      restartPolicy: OnFailure
+      serviceAccountName: ${KUBERNETES_NAME_PREFIX}-snapshot-engine

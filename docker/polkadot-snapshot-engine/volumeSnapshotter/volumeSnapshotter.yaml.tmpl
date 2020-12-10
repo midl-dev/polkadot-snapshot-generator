@@ -1,0 +1,8 @@
+apiVersion: snapshot.storage.k8s.io/v1beta1
+kind: VolumeSnapshot
+metadata:
+  name: polkadot-node-pv-snapshot
+spec:
+  volumeSnapshotClassName: ${KUBERNETES_NAME_PREFIX}-ssd-snapshot-class 
+  source:
+    persistentVolumeClaimName: ${KUBERNETES_NAME_PREFIX}-polkadot-private-node-claim

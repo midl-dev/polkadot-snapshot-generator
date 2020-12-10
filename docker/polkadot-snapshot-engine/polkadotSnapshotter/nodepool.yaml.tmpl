@@ -1,0 +1,9 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: polkadot-snapshotter
+spec:
+   template:
+     spec:
+       nodeSelector:
+         cloud.google.com/gke-nodepool: ${KUBERNETES_POOL_NAME}

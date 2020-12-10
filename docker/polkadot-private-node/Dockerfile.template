@@ -1,0 +1,6 @@
+FROM parity/polkadot:((polkadot_version))
+USER root
+USER polkadot
+COPY entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+CMD []

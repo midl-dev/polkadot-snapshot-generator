@@ -1,0 +1,8 @@
+FROM google/cloud-sdk:slim
+
+COPY entrypoint.sh /snapshot-uploader/
+
+ENTRYPOINT ["/snapshot-uploader/entrypoint.sh"]
+
+CMD []
+

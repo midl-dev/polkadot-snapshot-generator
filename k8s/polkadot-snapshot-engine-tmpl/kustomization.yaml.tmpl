@@ -1,0 +1,25 @@
+bases:
+- ./../polkadot-snapshot-engine-base
+
+imageTags:
+  - name: polkadot-snapshot-engine
+    newName: gcr.io/${project}/polkadot-snapshot-engine
+    newTag: ${kubernetes_namespace}-latest
+
+configMapGenerator:
+- name: polkadot-snapshot-engine-configmap
+  literals:
+  - FIREBASE_PROJECT="${firebase_project}"
+  - FIREBASE_TOKEN="${firebase_token}"
+  - WEBSITE_BUCKET_URL="${website_bucket_url}"
+  - KUBERNETES_NAME_PREFIX="${kubernetes_name_prefix}"
+  - KUBERNETES_NAMESPACE="${kubernetes_namespace}"
+  - KUBERNETES_POOL_NAME="${kubernetes_pool_name}"
+  - PROJECT="${project}"
+  - CHAIN="${chain}"
+  - DATABASE="${database}"
+
+patchesStrategicMerge:
+- nodepool.yaml
+- crontime.yaml
+- serviceaccountannotate.yaml

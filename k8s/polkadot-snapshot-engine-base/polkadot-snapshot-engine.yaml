@@ -1,0 +1,46 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: polkadot-snapshot-engine
+spec:
+  # every 24 hours
+  schedule: "7 13 * * *"
+  concurrencyPolicy:  Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: polkadot-snapshot-engine
+        spec:
+          securityContext:
+            fsGroup: 100
+          containers:
+          - name: polkadot-snapshot-engine
+            image: polkadot-snapshot-engine
+            envFrom:
+            - configMapRef:
+                name: polkadot-snapshot-engine-configmap
+            volumeMounts:
+            - name: polkadot-public-node-pv
+              mountPath: /var/run/polkadot/node
+              readOnly: true
+            - name: snapshot-cache-volume
+              mountPath: /mnt/snapshot-cache-volume
+            resources:
+              limits:
+                cpu: 0
+            imagePullPolicy: Always
+          volumes:
+          - name: polkadot-public-node-pv
+            persistentVolumeClaim:
+              claimName: polkadot-private-node-claim
+          - name: snapshot-cache-volume
+            emptyDir: {}
+          restartPolicy: OnFailure
+          serviceAccountName: snapshot-engine
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snapshot-engine

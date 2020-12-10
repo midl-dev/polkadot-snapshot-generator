@@ -1,0 +1,19 @@
+FROM jekyll/jekyll:builder
+
+RUN apk add --no-cache tar python3 curl
+
+USER jekyll 
+
+ENV NPM_CONFIG_PREFIX=/home/jekyll/.npm-global
+
+RUN npm install -g firebase-tools
+
+ADD snapshot-website-base /home/jekyll/snapshot-website-base
+
+COPY entrypoint.sh /
+
+COPY createFirebaseJson.py /
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD []

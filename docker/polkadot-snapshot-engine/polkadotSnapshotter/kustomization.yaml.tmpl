@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ${KUBERNETES_NAMESPACE}
+
+namePrefix: ${KUBERNETES_NAME_PREFIX}-
+
+nameSuffix: "-${BLOCK_HEIGHT}"
+
+imageTags:
+  - name: polkadot-snapshotter
+    newName: gcr.io/${PROJECT}/polkadot-snapshotter
+    newTag: ${KUBERNETES_NAMESPACE}-latest
+  - name: snapshot-uploader
+    newName: gcr.io/${PROJECT}/snapshot-uploader
+    newTag: ${KUBERNETES_NAMESPACE}-latest
+  - name: website-builder
+    newName: gcr.io/${PROJECT}/website-builder
+    newTag: ${KUBERNETES_NAMESPACE}-latest
+
+resources:
+  - polkadotSnapshotter.yaml
+
+configMapGenerator:
+- name: polkadot-snapshotter-configmap
+  literals:
+  - BLOCK_HASH="${BLOCK_HASH}"
+  - BLOCK_HEIGHT="${BLOCK_HEIGHT}"
+  - FIREBASE_TOKEN="${FIREBASE_TOKEN}"
+  - FIREBASE_PROJECT="${FIREBASE_PROJECT}"
+  - WEBSITE_BUCKET_URL="${WEBSITE_BUCKET_URL}"
+  - CHAIN="${CHAIN}"
+  - DATABASE="${DATABASE}"
+
+patchesStrategicMerge:
+- nodepool.yaml
