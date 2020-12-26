@@ -2,15 +2,15 @@
 
 This is a self-container Kuberneted cluster to generate Polkadot snapshots, deployable with just one command.
 
-When running your own polkadot baking operations, it is essential to be able to quickly recover from a disaster. Snapshots help you to get a node fully bootstrapped sooner.
+When running your own polkadot validation operations, it is essential to be able to quickly recover from a disaster. Snapshots help you to get a node fully synchronized sooner.
 
 These snapshots are available at [Polkashots](https://polkahots.io), but you may want to deploy the entire snapshot generation engine yourself, so your disaster recovery plan does not depend on any third-party services.
 
 ## Features
 
-* runs a Kubernetes full node with "full" storage mode
+* runs a Kubernetes node
 * leverages the Kubernetes Persistent Volume Snapshot feature: takes a snapshot of the storage at filesystem level before generating the polkadot snapshot
-* runs the snapshot generation job on a configurable cron schedule, for both "full" and "rolling" modes
+* runs the snapshot generation job on a configurable cron schedule
 * generates markdown metadata and a Jekyll static webpage describing the snapshots
 * deploys snapshot and static webpage to Firebase
 
@@ -51,7 +51,7 @@ First, go to `terraform` folder:
 cd terraform
 ```
 
-Below is a list of variables you must set.
+Below is a list of variables you must set in `terraform.tfvars` using the `variable=value` format.
 
 #### Google Cloud project
 
@@ -62,6 +62,10 @@ Set the project id in the `project` terraform variable.
 #### Polkadot version (optional)
 
 Set the `polkadot_version` variable to the desired branch of the polkadot software release.
+
+#### Database format
+
+Set the `database` parameter to either `ParityDb` or `RocksDb`.
 
 #### Snapshot url (optional)
 
@@ -75,9 +79,28 @@ For now, the terraform project must be created separately, and a CI token must b
 
 Then pass the project id as `firebase_project` and the token as `firebase_token`.
 
+Also pass `firebase_subdomain` so the snapshot webpage example points to the correct URL.
+
 #### Snapshot cron schedule (optional)
 
 Fill the `snapshot_cron_schedule` variable if you want to alter how often or when the snapshot generation cronjob runs.
+
+#### Full example of terraform.tfvars
+
+More variables, can be configured, see terraform/variables.tf file for details. Below is a full example:
+
+```
+project = "My Project"
+kubernetes_namespace="dop"
+kubernetes_name_prefix="dop"
+pokladot_version="v0.8.26-1"
+firebase_project = "polkashots-dot"
+firebase_subdomain = "dot"
+firebase_token = "1//0xxxxxxxxxxxx"
+snapshot_url = "https://dot.polkashots.io/snapshot"
+snapshot_cron_schedule = "43 2,14 * * *"
+database = "ParityDb"
+```
 
 ### Deploy
 
