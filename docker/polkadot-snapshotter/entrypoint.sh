@@ -55,7 +55,7 @@ page_nav:
 |-------------|-------------|
 | Chain        | ${CHAIN}         |
 | Block height | $BLOCK_HEIGHT |
-| Block hash | \`${BLOCK_HASH}\` |
+| Block hash | \`$(echo ${BLOCK_HASH} | cut -c1-45)...\` |
 | Creation data | $BLOCK_TIMESTAMP |
 | Database format | ${DATABASE} |
 | Pruning mode | Pruned |
