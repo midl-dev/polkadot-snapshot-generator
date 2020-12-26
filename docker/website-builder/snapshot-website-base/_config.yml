@@ -17,9 +17,9 @@ doks:
             image:
             logo_url: 'https://polkashots.io'
         nav:
-            - item_name: Polkadot/RocksDb
+            - item_name: RocksDb
               item_url: 'https://dot-rocksdb.polkashots.io/'
-            - item_name: Polkadot/ParityDb
+            - item_name: ParityDb
               item_url: 'https://dot.polkashots.io/'
 
     footer:

@@ -103,6 +103,12 @@ variable "firebase_project" {
   default = ""
 }
 
+variable "firebase_subdomain" {
+  type = string
+  default = "dot"
+  description = "name of the firebase subdomain to generate proper urls in examples"
+}
+
 variable "firebase_token" {
   type = string
   description = "firebase token (secret) to publish to the polkashots website"

@@ -49,37 +49,35 @@ page_nav:
         url: 'https://polkashots.io/index.html'
 ---
 
-# $CHAIN snapshots
+# $CHAIN snapshot
 
-Block height: $BLOCK_HEIGHT
-
-Block hash: \`${BLOCK_HASH}\`
+| <!-- -->    | <!-- -->    |
+|-------------|-------------|
+| Chain        | ${CHAIN}         |
+| Block height | $BLOCK_HEIGHT |
+| Block hash | \`${BLOCK_HASH}\` |
+| Creation data | $BLOCK_TIMESTAMP |
+| Database format | ${DATABASE} |
+| Pruning mode | Pruned |
+| Compression format | 7z |
+| Download link | [${snapshot_name}](${snapshot_name}) |
+| Size | ${snapshot_size} |
 
 [Verify on Polkastats](https://polkastats.io/block?blockNumber=${BLOCK_HEIGHT}){:target="_blank"} - [Verify on Polkascan](https://polkascan.io/$CHAIN/block/${BLOCK_HEIGHT}){:target="_blank"}
-
-Taken on: $BLOCK_TIMESTAMP
-
-## ${DATABASE} snaphot
-
-This snapshot is in the ${DATABASE} format and compressed with [7z](https://en.wikipedia.org/wiki/7z). [Read more](https://polkashots.io/getting-started).
-
-Download link: [${snapshot_name}](${snapshot_name})
-
-Size: ${snapshot_size}
 
 ## How to use
 
 Issue the following commands:
 
 \`\`\`
-wget https://dot.polkashots.io/${snapshot_name}
+wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/${snapshot_name}
 7z x ${snapshot_name} -o~/.local/share/polkadot/chains/${chain_dir}
 rm -v ${snapshot_name}
 \`\`\`
 
 Or simply use the permalink:
 \`\`\`
-wget https://dot.polkashots.io/snapshot -O ${CHAIN}.${DATABASE}.7z
+wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/snapshot -O ${CHAIN}.${DATABASE}.7z
 7z x ${CHAIN}.${DATABASE}.7z -o~/.local/share/polkadot/chains/${chain_dir}
 rm -v ${CHAIN}.${DATABASE}.7z
 \`\`\`

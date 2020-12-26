@@ -4,6 +4,7 @@ locals {
        "kubernetes_namespace": var.kubernetes_namespace,
        "kubernetes_name_prefix": var.kubernetes_name_prefix,
        "firebase_project": var.firebase_project,
+       "firebase_subdomain": var.firebase_subdomain,
        "firebase_token": var.firebase_token,
        #"explorer_subdomain": var.explorer_subdomain,
        #"firebase_project": google_firebase_web_app.snapshot_app.app_id,
