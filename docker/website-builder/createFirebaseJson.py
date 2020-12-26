@@ -6,6 +6,7 @@ import os
 website_bucket_url = os.environ["WEBSITE_BUCKET_URL"].replace("gs://", "")
 block_height = os.environ["BLOCK_HEIGHT"]
 database = os.environ["DATABASE"]
+chain = os.environ["CHAIN"]
 
 # Creates a firebase.json with the appropriate redirects.
 
@@ -21,7 +22,8 @@ firebase_conf = json.loads(""" {
 }
 """)
 
-firebase_conf["hosting"]["redirects"] = [ { "source": f"polkadot-:block.{database}.7z", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/polkadot-:block.{database}.7z" },
-        { "source": "snapshot", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/polkadot-{block_height}.{database}.7z" } ]
+firebase_conf["hosting"]["redirects"] = [ { "source": f"{chain}-:block.{database}.7z", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-:block.{database}.7z" },
+        { "source": f"{chain}-:block.{database}.7z.sha256", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-:block.{database}.7z.sha256" },
+        { "source": "snapshot", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-{block_height}.{database}.7z" } ]
 
 print(json.dumps(firebase_conf, indent=4))

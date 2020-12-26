@@ -8,7 +8,7 @@ else
     chain_dir=ksmcc3
 fi
 
-snapshot_name="polkadot-${BLOCK_HEIGHT}.${DATABASE}.7z"
+snapshot_name="${CHAIN}-${BLOCK_HEIGHT}.${DATABASE}.7z"
 ls /polkadot/.local/share/polkadot/chains/${chain_dir}/
 
 rm -rvf /polkadot/.local/share/polkadot/chains/${chain_dir}/keystore
@@ -17,6 +17,8 @@ rm -rvf /polkadot/.local/share/polkadot/chains/${chain_dir}/network
 7z a /mnt/snapshot-cache-volume/${snapshot_name} /polkadot/.local/share/polkadot/chains/${chain_dir}/*
 
 snapshot_size=$(du -h /mnt/snapshot-cache-volume/${snapshot_name} | cut -f1)
+cd /mnt/snapshot-cache-volume
+sha256sum ${snapshot_name} > /mnt/snapshot-cache-volume/${snapshot_name}.sha256
 
 BLOCK_TIMESTAMP=$(date --utc +%FT%T%Z)
 
@@ -61,6 +63,7 @@ page_nav:
 | Pruning mode | Pruned |
 | Compression format | 7z |
 | Download link | [${snapshot_name}](${snapshot_name}) |
+| Checksum | [${snapshot_name}.sha256](${snapshot_name}.sha256) |
 | Size | ${snapshot_size} |
 
 [Verify on Polkastats](https://polkastats.io/block?blockNumber=${BLOCK_HEIGHT}){:target="_blank"} - [Verify on Polkascan](https://polkascan.io/$CHAIN/block/${BLOCK_HEIGHT}){:target="_blank"}
