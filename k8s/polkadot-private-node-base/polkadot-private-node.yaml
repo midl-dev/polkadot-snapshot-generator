@@ -44,22 +44,6 @@ spec:
     app: private-node
   clusterIP: None
 ---
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  labels:
-    app: private-node
-    release: monitoring
-  name: private-monitoring
-spec:
-  endpoints:
-  - interval: 15s
-    port: metrics
-    path: /metrics
-  selector:
-    matchLabels:
-      app: private-node
----
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
