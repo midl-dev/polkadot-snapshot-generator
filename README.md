@@ -26,6 +26,7 @@ These snapshots are available at [Polkashots](https://polkahots.io), but you may
    CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/) (aka
    `kubectl`)
 
+1. Download and install the [Firebase CLI](https://firebase.google.com/docs/cli).
 
 ### Authentication
 
