@@ -1,0 +1,1 @@
+../terraform/k8s_template.tf

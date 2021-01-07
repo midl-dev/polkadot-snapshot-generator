@@ -1,18 +1,18 @@
 FROM google/cloud-sdk:slim
 
 # install  kubectl
-RUN apt-get -y install jq gettext && \
-curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+RUN apt-get -y --no-install-recommends install jq gettext && \
+curl -LO https://storage.googleapis.com/kubernetes-release/release/"$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"/bin/linux/amd64/kubectl && \
  chmod +x ./kubectl && \
  mv ./kubectl /usr/local/bin
 
 COPY entrypoint.sh /snapshot-engine/
 
-ADD polkadotSnapshotter /snapshot-engine/polkadotSnapshotter
+COPY polkadotSnapshotter /snapshot-engine/polkadotSnapshotter
 
-ADD volumeSnapshotter /snapshot-engine/volumeSnapshotter
+COPY volumeSnapshotter /snapshot-engine/volumeSnapshotter
 
-ADD volumeSnapshotMount /snapshot-engine/volumeSnapshotMount
+COPY volumeSnapshotMount /snapshot-engine/volumeSnapshotMount
 
 ENTRYPOINT ["/snapshot-engine/entrypoint.sh"]
 

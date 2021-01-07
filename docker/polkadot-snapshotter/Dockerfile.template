@@ -1,5 +1,5 @@
 FROM alpine
-RUN apk add curl p7zip bash
+RUN apk add --no-cache curl p7zip bash && rm -rf /var/cache/apk/*
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []
