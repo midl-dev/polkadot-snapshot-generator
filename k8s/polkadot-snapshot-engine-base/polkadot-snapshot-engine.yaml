@@ -22,9 +22,6 @@ spec:
             - configMapRef:
                 name: polkadot-snapshot-engine-configmap
             volumeMounts:
-            - name: polkadot-public-node-pv
-              mountPath: /var/run/polkadot/node
-              readOnly: true
             - name: snapshot-cache-volume
               mountPath: /mnt/snapshot-cache-volume
             resources:
@@ -32,9 +29,6 @@ spec:
                 cpu: 0
             imagePullPolicy: Always
           volumes:
-          - name: polkadot-public-node-pv
-            persistentVolumeClaim:
-              claimName: polkadot-private-node-claim
           - name: snapshot-cache-volume
             emptyDir: {}
           restartPolicy: OnFailure
