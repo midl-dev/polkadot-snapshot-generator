@@ -62,7 +62,7 @@ page_nav:
 | Database format | ${DATABASE} - [What is this?](https://polkashots.io/getting-started/#database-formats) |
 | Pruning mode | Pruned - [What is this?](https://polkashots.io/getting-started/#pruning) |
 | Compression format | 7z |
-| Version used for snapshotting | ${POLKADOT_SOFTWARE_VERSION} |
+| Version used for snapshotting | \`${POLKADOT_SOFTWARE_VERSION}\` |
 | Download link | [${snapshot_name}](${snapshot_name}) |
 | Checksum | [${snapshot_name}.sha256](${snapshot_name}.sha256) |
 | Size | ${snapshot_size} |
