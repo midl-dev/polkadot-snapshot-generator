@@ -28,6 +28,7 @@ fi
 # fetch the most recent block hash. This will be the snapshot.
 export BLOCK_HASH=$(curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "chain_getFinalizedHead"}' http://${KUBERNETES_NAME_PREFIX}-private-node:9933 | jq -r '.result')
 export BLOCK_HEIGHT=$(curl -H "Content-Type: application/json" -d "{\"id\":1, \"jsonrpc\":\"2.0\", \"method\": \"chain_getBlock\", \"params\":[\"${BLOCK_HASH}\"]}" http://${KUBERNETES_NAME_PREFIX}-private-node:9933 | jq -r '.result.block.header.number' | xargs printf "%d\n")
+export POLKADOT_SOFTWARE_VERSION=$(curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "system_version"}' http://${KUBERNETES_NAME_PREFIX}-private-node:9933 | jq -r '.result')
 
 cd /snapshot-engine/volumeSnapshotter
 envsubst < kustomization.yaml.tmpl > kustomization.yaml

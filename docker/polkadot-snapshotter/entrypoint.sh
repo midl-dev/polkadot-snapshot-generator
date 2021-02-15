@@ -58,10 +58,11 @@ page_nav:
 | Chain        | ${CHAIN}         |
 | Block height | $BLOCK_HEIGHT |
 | Block hash | \`$(echo ${BLOCK_HASH} | cut -c1-45)...\` |
-| Creation data | $BLOCK_TIMESTAMP |
-| Database format | ${DATABASE} |
-| Pruning mode | Pruned |
+| Creation date | $BLOCK_TIMESTAMP |
+| Database format | ${DATABASE} - [What is this?](https://polkashots.io/getting-started/#database-formats) |
+| Pruning mode | Pruned - [What is this?](https://polkashots.io/getting-started/#pruning) |
 | Compression format | 7z |
+| Version used for snapshotting | ${POLKADOT_SOFTWARE_VERSION} |
 | Download link | [${snapshot_name}](${snapshot_name}) |
 | Checksum | [${snapshot_name}.sha256](${snapshot_name}.sha256) |
 | Size | ${snapshot_size} |

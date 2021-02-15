@@ -53,6 +53,32 @@ cd terraform
 ```
 
 Below is a list of variables you must set in `terraform.tfvars` using the `variable=value` format.
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| billing\_account | Billing account ID. | `string` | `""` | no |
+| chain | chain (polkadot, kusama) | `string` | `"polkadot"` | no |
+| cluster\_ca\_certificate | kubernetes cluster certificate | `string` | `""` | no |
+| cluster\_name | name of the kubernetes cluster | `string` | `""` | no |
+| database | the database backend to use | `string` | `"RocksDb"` | no |
+| firebase\_project | name of the firebase project for the snapshot website | `string` | `""` | no |
+| firebase\_subdomain | name of the firebase subdomain to generate proper urls in examples | `string` | `"dot"` | no |
+| firebase\_token | firebase token (secret) to publish to the polkashots website | `string` | `""` | no |
+| kubernetes\_access\_token | name of the kubernetes endpoint | `string` | `""` | no |
+| kubernetes\_endpoint | name of the kubernetes endpoint | `string` | `""` | no |
+| kubernetes\_name\_prefix | kubernetes name prefix to prepend to all resources (should be short, like dot) | `string` | `"dot"` | no |
+| kubernetes\_namespace | kubernetes namespace to deploy the resource into | `string` | `"tzshots"` | no |
+| kubernetes\_pool\_name | when kubernetes cluster has several node pools, specify which ones to deploy the baking setup into. only effective when deploying on an external cluster with terraform\_no\_cluster\_create | `string` | `"blockchain-pool"` | no |
+| node\_locations | Zones in which to create the nodes | `list` | <pre>[<br>  "us-central1-b",<br>  "us-central1-f"<br>]</pre> | no |
+| org\_id | Organization ID. | `string` | `""` | no |
+| polkadot\_version | The polkadot container software version | `string` | `"latest-release"` | no |
+| project | Project ID where Terraform is authenticated to run to create additional projects. If provided, Terraform will great the GKE and Polkadot cluster inside this project. If not given, Terraform will generate a new project. | `string` | `""` | no |
+| region | Region in which to create the cluster, or region where the cluster exists. | `string` | `"us-central1"` | no |
+| snapshot\_cron\_schedule | the schedule on which to generate snapshots, in cron format | `string` | `"7 13 * * *"` | no |
+| snapshot\_url | url of the snapshot of type full to download | `string` | `""` | no |
+| terraform\_service\_account\_credentials | path to terraform service account file, created following the instructions in https://cloud.google.com/community/tutorials/managing-gcp-projects-with-terraform | `string` | `"~/.config/gcloud/application_default_credentials.json"` | no |
+
 
 #### Google Cloud project
 
