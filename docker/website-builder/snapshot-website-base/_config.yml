@@ -21,6 +21,8 @@ doks:
               item_url: 'https://dot-rocksdb.polkashots.io/'
             - item_name: ParityDb
               item_url: 'https://dot.polkashots.io/'
+            - item_name: KusamaRocksDb
+              item_url: 'https://ksm-rocksdb.polkashots.io/'
 
     footer:
         content:
