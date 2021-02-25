@@ -18,6 +18,7 @@ fi
 # unsafe flags are due to polkadot panic alerter needing to connect to the node with rpc
 eval /usr/bin/polkadot --wasm-execution Compiled \
          --prometheus-external \
+         --out-peers=10 \
          --rpc-external \
          --rpc-cors=all \
          $node_key_param \
