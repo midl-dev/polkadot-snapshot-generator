@@ -129,6 +129,6 @@ variable "chain" {
 
 variable "database" {
   type = string
-  description = "the database backend to use"
+  description = "the database backend to use, rocksdb or paritydb-experimental"
   default = "RocksDb"
 }
