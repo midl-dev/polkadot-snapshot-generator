@@ -4,7 +4,7 @@ This is a self-container Kuberneted cluster to generate Polkadot snapshots, depl
 
 When running your own polkadot validation operations, it is essential to be able to quickly recover from a disaster. Snapshots help you to get a node fully synchronized sooner.
 
-These snapshots are available at [Polkashots](https://polkahots.io), but you may want to deploy the entire snapshot generation engine yourself, so your disaster recovery plan does not depend on any third-party services.
+These snapshots are available at [Polkashots](https://polkashots.io), but you may want to deploy the entire snapshot generation engine yourself, so your disaster recovery plan does not depend on any third-party services.
 
 ## Features
 
