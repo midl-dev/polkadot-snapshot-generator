@@ -4,3 +4,12 @@ metadata:
   name: polkadot-private-node-claim
 spec:
   storageClassName: ${kubernetes_name_prefix}-snapshottable-ssd
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tezos-public-node-claim
+spec:
+  resources:
+    requests:
+      storage: ${node_storage_size}Gi

@@ -132,3 +132,9 @@ variable "database" {
   description = "the database backend to use, rocksdb or paritydb-experimental"
   default = "RocksDb"
 }
+
+variable "node_storage_size" {
+  type = string
+  description = "Storage size for the node, in gibibytes (GiB)."
+  default = "80"
+}

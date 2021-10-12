@@ -12,7 +12,8 @@ locals {
        "chain": var.chain,
        "database": var.database,
        "kubernetes_pool_name": var.kubernetes_pool_name,
-       "snapshot_url": var.snapshot_url
+       "snapshot_url": var.snapshot_url,
+       "node_storage_size": var.node_storage_size
   }
 }
 
@@ -39,7 +40,7 @@ ${templatefile("${path.module}/../k8s/polkadot-private-node-tmpl/kustomization.y
     merge(local.terraform_variables, local.cloud_variables))}
 EOK
 cat <<EOPPVN > polkadot-private-node/prefixedpvnode.yaml
-${templatefile("${path.module}/../k8s/polkadot-private-node-tmpl/prefixedpvnode.yaml.tmpl", {"kubernetes_name_prefix": var.kubernetes_name_prefix})}
+${templatefile("${path.module}/../k8s/polkadot-private-node-tmpl/prefixedpvnode.yaml.tmpl", local.terraform_variables)}
 EOPPVN
 cat <<EONPN > polkadot-private-node/nodepool.yaml
 ${templatefile("${path.module}/../k8s/polkadot-private-node-tmpl/nodepool.yaml.tmpl", {"kubernetes_pool_name": var.kubernetes_pool_name})}

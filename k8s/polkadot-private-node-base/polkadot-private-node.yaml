@@ -22,9 +22,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 60Gi
 ---
 apiVersion: v1
 kind: Service
