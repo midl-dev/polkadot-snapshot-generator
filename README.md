@@ -127,6 +127,7 @@ firebase_token = "1//0xxxxxxxxxxxx"
 snapshot_url = "https://dot.polkashots.io/snapshot"
 snapshot_cron_schedule = "43 2,14 * * *"
 database = "ParityDb"
+node_storage_size = "60"
 ```
 
 ### Deploy
@@ -159,6 +160,15 @@ Once the command returns, you can verify that the pods are up by running:
 ```
 kubectl get pods
 ```
+
+### How to resize
+
+Resizing the storage of the node used for snapshotting has two components: the volume itself needs resizing, and the snapshot-engine cronjob env variable must change.
+
+If these 2 actions are not taken together, the snapshot generation will stop due to size mismatch.
+
+1. Change the `node_storage_size` value. This value is passed to the VolumeSnapshot kubernetes object.
+1. Change the persistentvolumeclaim size manually with `kubectl edit` or k9s.
 
 ## Wrapping up
 
