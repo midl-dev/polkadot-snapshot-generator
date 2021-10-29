@@ -75,16 +75,18 @@ Issue the following commands:
 
 \`\`\`
 wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/${snapshot_name}
-7z x ${snapshot_name} -o~/.local/share/polkadot/chains/${chain_dir}
+7z x ${snapshot_name} -o/home/polkadot/.local/share/polkadot/chains/${chain_dir}
 rm -v ${snapshot_name}
 \`\`\`
 
 Or simply use the permalink:
 \`\`\`
 wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/snapshot -O ${CHAIN}.${DATABASE}.7z
-7z x ${CHAIN}.${DATABASE}.7z -o~/.local/share/polkadot/chains/${chain_dir}
+7z x ${CHAIN}.${DATABASE}.7z -o/home/polkadot/.local/share/polkadot/chains/${chain_dir}
 rm -v ${CHAIN}.${DATABASE}.7z
 \`\`\`
+
+Note: if applicable, replace `/home/polkadot` with the location of polkadot node storage.
 
 Then run the ${CHAIN} node:
 \`\`\`
