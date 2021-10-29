@@ -86,7 +86,7 @@ wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/snapshot -O ${CHAIN}.${DATABASE
 rm -v ${CHAIN}.${DATABASE}.7z
 \`\`\`
 
-Note: if applicable, replace `/home/polkadot` with the location of polkadot node storage.
+Note: if applicable, replace \`/home/polkadot\` with the actual storage location.
 
 Then run the ${CHAIN} node:
 \`\`\`
