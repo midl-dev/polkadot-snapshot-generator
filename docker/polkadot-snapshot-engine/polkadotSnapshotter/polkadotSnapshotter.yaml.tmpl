@@ -11,23 +11,11 @@ spec:
       securityContext:
         fsGroup: 100
       initContainers:
-      - name: polkadot-snapshotter
-        image: polkadot-snapshotter
-        volumeMounts:
-        - name: polkadot-node-pv-snapshot-provision
-          mountPath: /polkadot
-        - name: snapshot-cache-volume
-          mountPath: /mnt/snapshot-cache-volume
-        resources:
-          limits:
-            cpu: 0
-        imagePullPolicy: Always
-        envFrom:
-        - configMapRef:
-            name: polkadot-snapshotter-configmap
       - name: snapshot-uploader
         image: snapshot-uploader
         volumeMounts:
+        - name: polkadot-node-pv-snapshot-provision
+          mountPath: /polkadot
         - name: snapshot-cache-volume
           mountPath: /mnt/snapshot-cache-volume
         resources:

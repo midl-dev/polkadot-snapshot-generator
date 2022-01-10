@@ -138,3 +138,9 @@ variable "node_storage_size" {
   description = "Storage size for the node, in gibibytes (GiB)."
   default = "80"
 }
+
+variable "num_days_to_keep" {
+  type = string
+  description = "number of days to keep. 1 means 'keep for 24 hours'"
+  default = 3
+}

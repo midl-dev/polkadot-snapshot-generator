@@ -22,8 +22,7 @@ firebase_conf = json.loads(""" {
 }
 """)
 
-firebase_conf["hosting"]["redirects"] = [ { "source": f"{chain}-:block.{database}.7z", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-:block.{database}.7z" },
-        { "source": f"{chain}-:block.{database}.7z.sha256", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-:block.{database}.7z.sha256" },
-        { "source": "snapshot", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-{block_height}.{database}.7z" } ]
+firebase_conf["hosting"]["redirects"] = [ { "source": f"{chain}-:block.{database}.tar.lz4", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-:block.{database}.tar.lz4" },
+        { "source": "snapshot", "type": 301, "destination": f"https://storage.googleapis.com/{website_bucket_url}/{chain}-{block_height}.{database}.tar.lz4" } ]
 
 print(json.dumps(firebase_conf, indent=4))

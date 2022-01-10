@@ -1,4 +1,6 @@
-FROM google/cloud-sdk:slim
+FROM google/cloud-sdk:alpine
+
+RUN apk add --no-cache curl lz4 bash && rm -rf /var/cache/apk/*
 
 COPY entrypoint.sh /snapshot-uploader/
 
