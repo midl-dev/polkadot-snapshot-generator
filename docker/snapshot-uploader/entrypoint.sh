@@ -69,19 +69,19 @@ page_nav:
 
 ## How to use
 
-Issue the following commands:
+Issue the following command to download and unpack the archive in one step:
 
 \`\`\`
-wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/${snapshot_name}
-lz4 -c -d ${snapshot_name} | tar -x -C /home/polkadot/.local/share/polkadot/chains/${chain_dir}
-rm -v ${snapshot_name}
+curl -o - -L https://${FIREBASE_SUBDOMAIN}.polkashots.io/${snapshot_name} | \
+lz4 -c -d ${snapshot_name} | \
+tar -x -C /home/polkadot/.local/share/polkadot/chains/${chain_dir}
 \`\`\`
 
 Or simply use the permalink:
 \`\`\`
-wget https://${FIREBASE_SUBDOMAIN}.polkashots.io/snapshot -O ${CHAIN}.${DATABASE}.tar.lz4
-lz4 -c -d ${CHAIN}.${DATABASE}.tar.lz4 | tar -x -C /home/polkadot/.local/share/polkadot/chains/${chain_dir}
-rm -v ${CHAIN}.${DATABASE}.tar.lz4
+curl -o - -L https://${FIREBASE_SUBDOMAIN}.polkashots.io/snapshot | \
+lz4 -c -d ${CHAIN}.${DATABASE}.tar.lz4 | \
+tar -x -C /home/polkadot/.local/share/polkadot/chains/${chain_dir}
 \`\`\`
 
 Note: if applicable, replace \`/home/polkadot\` with the actual storage location.
