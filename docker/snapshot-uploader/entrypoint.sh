@@ -73,14 +73,14 @@ Issue the following command to download and unpack the archive in one step:
 
 \`\`\`
 curl -o - -L https://${FIREBASE_SUBDOMAIN}.polkashots.io/${snapshot_name} | \
-lz4 -c -d ${snapshot_name} | \
+lz4 -c -d - | \
 tar -x -C /home/polkadot/.local/share/polkadot/chains/${chain_dir}
 \`\`\`
 
 Or simply use the permalink:
 \`\`\`
 curl -o - -L https://${FIREBASE_SUBDOMAIN}.polkashots.io/snapshot | \
-lz4 -c -d ${CHAIN}.${DATABASE}.tar.lz4 | \
+lz4 -c -d - | \
 tar -x -C /home/polkadot/.local/share/polkadot/chains/${chain_dir}
 \`\`\`
 
