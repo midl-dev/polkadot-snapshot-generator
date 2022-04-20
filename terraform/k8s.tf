@@ -96,6 +96,7 @@ resource "random_id" "rnd_bucket" {
 resource "google_storage_bucket" "snapshot_bucket" {
   name     = "polkadot-snapshot-bucket-${var.kubernetes_name_prefix}-${random_id.rnd_bucket.hex}"
   project = module.terraform-gke-blockchain.project
+  location = "US"
 
   website {
     main_page_suffix = "index.html"
