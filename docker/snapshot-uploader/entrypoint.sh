@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -ex
 # workload identity allows this to work
 gcloud container clusters get-credentials blockchain --region us-central1
 
@@ -17,9 +17,17 @@ rm -rvf /polkadot/.local/share/polkadot/chains/${chain_dir}/network
 BLOCK_TIMESTAMP=$(date --utc +%FT%T%Z)
 
 # pipe straight to bucket
-tar cf - -C /polkadot/.local/share/polkadot/chains/${chain_dir} . | lz4 -1 - | gsutil cp - ${WEBSITE_BUCKET_URL}/${snapshot_name}
+# note - hard-coding expected size to 200Gi
+tar cf - -C /polkadot/.local/share/polkadot/chains/${chain_dir} . | lz4 -1 - | aws s3 cp --expected-size=200000000000 - --endpoint-url ${DATA_BUCKET_URL} s3://${FIREBASE_SUBDOMAIN}/${snapshot_name}
 
-snapshot_size=$(gsutil du -h ${WEBSITE_BUCKET_URL}/${snapshot_name}| cut -d\  -f 1-2)
+snapshot_size=$(aws s3api head-object --endpoint-url ${DATA_BUCKET_URL} --bucket ${FIREBASE_SUBDOMAIN} --key ${snapshot_name} --query "ContentLength")
+
+# delete older snapshots (only keep the most recent 2)
+aws s3api list-objects-v2 --endpoint-url ${DATA_BUCKET_URL} --bucket ${FIREBASE_SUBDOMAIN}  \
+    --query 'Contents[?LastModified > `'"$SINCE"'`]' | python3 /snapshot-uploader/filterOldSnapshots.py | while read line; do
+  aws s3api delete-object --endpoint-url ${DATA_BUCKET_URL} --bucket ${FIREBASE_SUBDOMAIN}  \
+    --key $line --version-id null
+done
 
 mkdir -p /mnt/snapshot-cache-volume/firebase-files/
 cat << EOF > /mnt/snapshot-cache-volume/firebase-files/index.md
@@ -88,7 +96,7 @@ Note: if applicable, replace \`/home/polkadot\` with the actual storage location
 
 Then run the ${CHAIN} node:
 \`\`\`
-polkadot --chain=${CHAIN} --database=${DATABASE} --unsafe-pruning --pruning=1000
+polkadot --chain=${CHAIN} --database=${DATABASE} --pruning=1000
 \`\`\`
 
 ### More details
