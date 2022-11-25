@@ -115,6 +115,30 @@ variable "firebase_token" {
   default = ""
 }
 
+variable "aws_access_key_id" {
+  type = string
+  description = "access key for the cloudflare or s3 data bucket"
+  default = ""
+}
+
+variable "aws_secret_access_key" {
+  type = string
+  description = "secret for the data bucket"
+  default = ""
+}
+
+variable "data_bucket_url" {
+  type = string
+  description = "URL for the cloudflare / s3 data bucket where the snapshots go"
+  default = ""
+}
+
+variable "data_bucket_public_url" {
+  type = string
+  description = "public URL for data bucket above"
+  default = ""
+}
+
 variable "snapshot_cron_schedule" {
   type = string
   description = "the schedule on which to generate snapshots, in cron format"
