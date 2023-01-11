@@ -22,7 +22,9 @@ FROM google/cloud-sdk:alpine
 COPY --from=builder /usr/local/aws-cli/ /usr/local/aws-cli/
 COPY --from=builder /aws-cli-bin/ /usr/local/bin/
 
-RUN apk add --no-cache curl lz4 bash python3 && rm -rf /var/cache/apk/*
+RUN apk add --no-cache curl lz4 bash python3 && rm -rf /var/cache/apk/* && \
+  gcloud components install gke-gcloud-auth-plugin
+
 RUN aws --version   # Just to make sure its installed alright
 
 COPY entrypoint.sh /snapshot-uploader/

@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 # workload identity allows this to work
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+gcloud components install gke-gcloud-auth-plugin
 gcloud container clusters get-credentials blockchain --region us-central1
 
 if [ "${CHAIN}" == "polkadot" ]; then

@@ -4,6 +4,7 @@ set -e
 set -x
 
 # workload identity allows this to work
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 gcloud container clusters get-credentials blockchain --region us-central1
 
 # first, delete old versions of pvc and snapshot that may still be present
